@@ -311,7 +311,7 @@ async def cmd_predict(message:types.Message,state:FSMContext) -> None:
 	if message.from_user.id not in users_dict.keys():
 		await data_register(message,0,state)
 	else:
-		await data_register(message,max(users_dict[message.from_user.id].keys())+1,state)
+		await data_register(message,max(list(users_dict[message.from_user.id].keys()))+1,state)
 
 @dp.message(WaitData.waiting_inn)
 async def handler_inn(message:types.Message,state:FSMContext) -> None:
