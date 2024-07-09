@@ -16,21 +16,21 @@ import pandas as pd
 warnings.filterwarnings("ignore")
 
 logging.basicConfig(level=logging.INFO)
-bot = Bot(token="<Тут могла быть ваша реклама>",default=DefaultBotProperties(parse_mode='HTML'))
+bot = Bot(token='7194071701:AAGTn9BpCn2KzOxsGtDKUmB27nE8UExEkHQ',default=DefaultBotProperties(parse_mode='HTML'))
 dp = Dispatcher()
 
 users_dict = dict()
 
-bern_goal = joblib.load('model/bern_goal.joblib')
-bern_desc = joblib.load('model/bern_desc.joblib')
-bern_soc = joblib.load('model/bern_soc.joblib')
-bern_tasks = joblib.load('model/bern_tasks.joblib')
-bern_main = joblib.load('model/bern_main.joblib')
-style_model = joblib.load('model/formal.joblib')
-vc_desc=joblib.load('model/vc_desc.joblib')
-vc_goal=joblib.load('model/vc_goal.joblib')
-vc_soc=joblib.load('model/vc_soc.joblib')
-vc_tasks=joblib.load('model/vc_tasks.joblib')
+bern_goal = joblib.load('bern_goal.joblib')
+bern_desc = joblib.load('bern_desc.joblib')
+bern_soc = joblib.load('bern_soc.joblib')
+bern_tasks = joblib.load('bern_tasks.joblib')
+bern_main = joblib.load('bern_main.joblib')
+style_model = joblib.load('formal.joblib')
+vc_desc=joblib.load('vc_desc.joblib')
+vc_goal=joblib.load('vc_goal.joblib')
+vc_soc=joblib.load('vc_soc.joblib')
+vc_tasks=joblib.load('vc_tasks.joblib')
 
 class WaitData(StatesGroup):
 	waiting_inn = State()
@@ -146,7 +146,10 @@ async def data_register(message:types.Message,step:int,state:FSMContext):
 		else:
 			try:
 				inn = int(message.text)
-				if check_inn(inn):
+				if inn < 0:
+					await message.answer(f'<b>❌ИНН не может быть отрицательным...</b> ⚆_⚆')
+					await message.answer(f'👨‍💻<i>Введите ИНН вашей НКО:</i>')
+				elif check_inn(inn):
 					cookies = {
 						'_ym_uid': '1720186151535325611',
 						'_ym_d': '1720186151',
@@ -233,25 +236,25 @@ async def data_register(message:types.Message,step:int,state:FSMContext):
 			await message.answer(f'👨‍💻<i>Введите обоснование социальной значимости проекта:</i>')
 		else:
 			users_dict[message.from_user.id][6] = message.text
-			await message.answer(f'👨‍💻<i>Введите запрашиваемую сумму гранта:</i>',reply_markup=None)
+			await message.answer(f'👨‍💻<i>Введите запрашиваемую сумму гранта в рублях:</i>',reply_markup=None)
 			await state.set_state(WaitData.waiting_grant_req_money)
 	elif step == 8:
 		if message.text is None:
 			await message.answer('<b>🔍Текст сообщения не был найден!</b> ⚆_⚆')
-			await message.answer(f'👨‍💻<i>Введите запрашиваемую сумму гранта:</i>')
+			await message.answer(f'👨‍💻<i>Введите запрашиваемую сумму гранта в рублях:</i>')
 		else:
 			try:
 				money_req_grant = int(float(message.text))
 				if money_req_grant < 0:
 					await message.answer('<b>🤔Вы хотите чтобы у вас за грант отобрали деньги?</b> ⚆_⚆')
-					await message.answer(f'👨‍💻<i>Введите запрашиваемую сумму гранта:</i>')
+					await message.answer(f'👨‍💻<i>Введите запрашиваемую сумму гранта в рублях:</i>')
 				else:
 					users_dict[message.from_user.id][7] = money_req_grant
 					await message.answer(f'👨‍💻<i>Введите дату <b>начала реализации</b> проекта в формате ДД.ММ.ГГГГ:</i>',reply_markup=None)
 					await state.set_state(WaitData.waiting_implem_start)
 			except ValueError:
 				await message.answer('<b>❌Запрашиваемая сумма гранта - число! ψ(._. )></b>')
-				await message.answer(f'👨‍💻<i>Введите запрашиваемую сумму гранта:</i>')
+				await message.answer(f'👨‍💻<i>Введите запрашиваемую сумму гранта в рублях:</i>')
 	elif step == 9:
 		if message.text is None:
 			await message.answer('<b>🔍Текст сообщения не был найден!</b> ⚆_⚆')
@@ -345,7 +348,7 @@ async def handler_direction(callback:types.CallbackQuery,state:FSMContext) -> No
 	}
 	category = number_dict[callback.data.split('_')[1]]
 	users_dict[callback.from_user.id][3] = category
-	await callback.message.answer(f'<i>Вы выбрали категорию {category}</i>')
+	await callback.message.answer(f'<i>Вы выбрали категорию <b>{category}</b></i>')
 	await callback.message.delete()
 	await data_register(callback.message,4,state)
 
@@ -378,4 +381,3 @@ async def main():
 
 if __name__ == "__main__":
 	asyncio.run(main())
-
