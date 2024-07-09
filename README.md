@@ -60,7 +60,7 @@
 ## Разрабатывали:
 - Никнеймы GitHub:
   - [*Sashakrem8320*](https://github.com/Sashakrem8320)
-  - 
+  
   - [*Ezhovnik*](https://github.com/Ezhovnik)
 
   - [*Fl1nixxx*](https://github.com/Fl1nixxx)
