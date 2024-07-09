@@ -59,7 +59,7 @@
 ***
 ## Разрабатывали:
 - Никнеймы GitHub:
-  - *George*
+  - *Ezhovnik*
 
   - *Fl1nixxx*
 
