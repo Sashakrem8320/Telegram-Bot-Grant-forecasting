@@ -38,13 +38,21 @@
 ### Что используется в проекте?
 
 - Библиотеки:
+  - aiogram
+  - requests
+  - asyncio
+  - joblib
   - pandas
   - numpy
-  - sklearn
+  - scikit-learn
   - nltk
+  - scipy
   - string
+  - datetime
+    
 - Модель ML:
   - Наивный Байес Бернулли
+    
 - Файлы моделей:
   - bern_desc.joblib
   - bern_goal.joblib
