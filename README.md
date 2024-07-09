@@ -21,18 +21,18 @@
 ### Что используется в проекте?
 
 - Библиотеки:
-- pandas
-- numpy
-- sklearn
-- nltk
-- string
+  - pandas
+  - numpy
+  - sklearn
+  - nltk
+  - string
 - Модель:
-- Бернулли
+  - Бернулли
 - Файлы моделей:
-- bern_main.joblib
-- project_fin.ipynb
-- vc_tasks.joblib
-- vc_soc.joblib
+  - bern_main.joblib
+  - project_fin.ipynb
+  - vc_tasks.joblib
+  - vc_soc.joblib
 ***
 ## Разрабатывали:
 - Ники git hub
