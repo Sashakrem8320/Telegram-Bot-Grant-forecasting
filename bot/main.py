@@ -16,7 +16,7 @@ import pandas as pd
 warnings.filterwarnings("ignore")
 
 logging.basicConfig(level=logging.INFO)
-bot = Bot(token='Тут могла быть ваша реклама',default=DefaultBotProperties(parse_mode='HTML'))
+bot = Bot(token="<Тут могла быть ваша реклама>",default=DefaultBotProperties(parse_mode='HTML'))
 dp = Dispatcher()
 
 users_dict = dict()
