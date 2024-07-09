@@ -5,8 +5,11 @@
 ## Разрабатывали:
 
 > George
+> 
 > Fl1nixxx
+>
 > Sinopt1ck
+>
 > Sashakrem8320
 
 ### Функционал бота
