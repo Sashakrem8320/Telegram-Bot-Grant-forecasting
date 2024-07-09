@@ -45,10 +45,16 @@
 - Модель:
   - Бернулли
 - Файлы моделей:
+  - bern_desc.joblib
+  - bern_goal.joblib
   - bern_main.joblib
-  - project_fin.ipynb
-  - vc_tasks.joblib
+  - bern_soc.joblib
+  - bern_tasks.joblib
+  - formal.joblib
+  - vc_desc.joblib
+  - vc_goal.joblib
   - vc_soc.joblib
+  - vc_tasks.joblib
 ***
 ## Разрабатывали:
 - Ники git hub
