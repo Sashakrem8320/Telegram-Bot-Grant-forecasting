@@ -13,14 +13,22 @@
 ### Как запустить его у себя на компьютере?
 > **Установка библиотек:**
 >
-> pip install aiogram==3.10.0 \n
+> pip install aiogram==3.10.0
+> 
 > pip install requests==2.32.3
+> 
 > pip install asyncio==3.4.3
+> 
 > pip install joblib==1.3.2
+> 
 > pip install pandas==2.2.2
+> 
 > pip install numpy==1.26.4
+> 
 > pip install scikit-learn==1.2.2
+> 
 > pip install scipy==1.14.0
+
 
 > Замените **ТОКЕН боту**
 
