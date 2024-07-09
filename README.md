@@ -59,10 +59,10 @@
 ***
 ## Разрабатывали:
 - Никнеймы GitHub:
-  - *Ezhovnik*
+  - [*Sashakrem8320*](https://github.com/Sashakrem8320)
+  - 
+  - [*Ezhovnik*](https://github.com/Ezhovnik)
 
-  - *Fl1nixxx*
+  - [*Fl1nixxx*](https://github.com/Fl1nixxx)
 
-  - *Sinopt1ck*
-
-  - *Sashakrem8320*
+  - [*Sinopt1ck*](https://github.com/Sinopt1ck)
