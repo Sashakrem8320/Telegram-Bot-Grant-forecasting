@@ -58,8 +58,7 @@
   - vc_tasks.joblib
 ***
 ## Разрабатывали:
-- Ники git hub
-
+- Никнеймы GitHub:
   - *George*
 
   - *Fl1nixxx*
