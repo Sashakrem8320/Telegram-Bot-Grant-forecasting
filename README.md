@@ -37,10 +37,10 @@
 ## Разрабатывали:
 - Ники git hub
 
-- *George*
+  - *George*
 
-- *Fl1nixxx*
+  - *Fl1nixxx*
 
-- *Sinopt1ck*
+  - *Sinopt1ck*
 
-- *Sashakrem8320*
+  - *Sashakrem8320*
