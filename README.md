@@ -13,7 +13,7 @@
 ### Как запустить его у себя на компьютере?
 > **Установка библиотек:**
 >
-> pip install aiogram==3.10.0
+> pip install aiogram==3.10.0 \n
 > pip install requests==2.32.3
 > pip install asyncio==3.4.3
 > pip install joblib==1.3.2
