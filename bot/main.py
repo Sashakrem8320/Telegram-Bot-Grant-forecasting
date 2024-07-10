@@ -16,7 +16,7 @@ import pandas as pd
 warnings.filterwarnings("ignore")
 
 logging.basicConfig(level=logging.INFO)
-bot = Bot(token='7194071701:AAGTn9BpCn2KzOxsGtDKUmB27nE8UExEkHQ',default=DefaultBotProperties(parse_mode='HTML'))
+bot = Bot(token='<Тут могла быть ваша реклама>',default=DefaultBotProperties(parse_mode='HTML'))
 dp = Dispatcher()
 
 users_dict = dict()
@@ -125,7 +125,8 @@ async def model(message:types.Message,description:str,direction:str,tasks:str,go
 	goal_percent= round(bern_goal.predict_proba(pd.concat([pd.DataFrame([form_goal]),pd.DataFrame([goal_len]),pd.DataFrame(vector_goal.toarray())],axis='columns'))[0][1]*100,2)
 	soc_percent= round(bern_soc.predict_proba(pd.concat([pd.DataFrame([form_soc]),pd.DataFrame([soc_len]),pd.DataFrame(vector_soc.toarray())],axis='columns'))[0][1]*100,2)
 	tasks_percent= round(bern_tasks.predict_proba(pd.concat([pd.DataFrame([form_tasks]),pd.DataFrame([tasks_len]),pd.DataFrame(vector_tasks.toarray())],axis='columns'))[0][1]*100,2)
-	all_answer = 'Проект скорее всего получит грант🎉' if bern_main.predict_proba(vector_data)[0][1]*100 == 100 else 'Проект скорее всего не получит грант😭'
+	main_predict = bern_main.predict_proba(vector_data)[0][1]
+	all_answer = 'Проект скорее всего получит грант🎉' if bern_main.predict_proba(vector_data)[0][1]*100 >= 50 else 'Проект скорее всего не получит грант😭'
 
 	hype_desc = '👍' if desc_percent >=50 else '👎'
 	hype_goal = '👍' if goal_percent >=50 else '👎'
@@ -144,10 +145,11 @@ async def data_register(message:types.Message,step:int,state:FSMContext):
 			await message.answer('<b>🔍Текст сообщения не был найден!</b> ⚆_⚆')
 			await message.answer(f'👨‍💻<i>Введите ИНН вашей НКО:</i>')
 		else:
+			m=await message.answer('🔄<i>Проверяю ИНН...</i>')
 			try:
 				inn = int(message.text)
 				if inn < 0:
-					await message.answer(f'<b>❌ИНН не может быть отрицательным...</b> ⚆_⚆')
+					await m.edit_text(f'<b>❌ИНН не может быть отрицательным...</b> ⚆_⚆')
 					await message.answer(f'👨‍💻<i>Введите ИНН вашей НКО:</i>')
 				elif check_inn(inn):
 					cookies = {
@@ -181,17 +183,21 @@ async def data_register(message:types.Message,step:int,state:FSMContext):
 
 					response = requests.get('https://bankrot.fedresurs.ru/backend/cmpbankrupts', params=params, cookies=cookies, headers=headers).json()
 					if response['total'] == 0:
+						await m.edit_text('✅<i>С ИНН всё хорошо!</i>')
+						users_dict[message.from_user.id][0] = inn
 						await message.answer(f'👨‍💻<i>Введите название проекта:</i>',reply_markup=None)
 						await state.set_state(WaitData.waiting_project_name)
 					else:
-						await message.answer('<b>❌Организация-банкрот не может участвовать в конкурсе связи с <a href="https://президентскиегранты.рф/public/api/v1/file/get-document?filename=e1d12373-3ae5-47f3-99ce-667a673aa803.pdf">положением о конкурсе "Фонда президентских грантов"</a>!</b> ψ(._. )>',link_preview_options=types.LinkPreviewOptions(is_disabled=True),reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text='Начать✨')]],one_time_keyboard=True,resize_keyboard=True))
+						await m.edit_text('<b>❌Организация-банкрот не может участвовать в конкурсе связи с <a href="https://президентскиегранты.рф/public/api/v1/file/get-document?filename=e1d12373-3ae5-47f3-99ce-667a673aa803.pdf">положением о конкурсе "Фонда президентских грантов"</a>!</b> ψ(._. )>',link_preview_options=types.LinkPreviewOptions(is_disabled=True))
 						del users_dict[message.from_user.id]
+						await state.clear()
 						return
 				else:
-					await message.answer('<b>❌Введенный ИНН не правильный! ψ(._. )></b>')
+					await m.edit_text('<b>❌Введенный ИНН не правильный! ψ(._. )></b>')
 					await message.answer(f'👨‍💻<i>Введите ИНН вашей НКО:</i>')
-			except ValueError:
-				await message.answer('<b>🔍ИНН НКО должен быть целым числом!</b> ⚆_⚆')
+			except ValueError as e:
+				print(e)
+				await m.edit_text('<b>🔍ИНН НКО должен быть целым числом!</b> ⚆_⚆')
 				await message.answer(f'👨‍💻<i>Введите ИНН вашей НКО:</i>')
 	elif step == 2:
 		if message.text is None:
@@ -304,7 +310,7 @@ async def data_register(message:types.Message,step:int,state:FSMContext):
 async def cmd_start(message:types.Message,state:FSMContext) -> None:
 	await state.clear()
 	await message.answer(
-		f'Здравствуйте, {get_name(message.from_user.first_name)}! Я <b>ГрантОракул🧙‍♂️</b>\nЯ попробую предсказать Вам результаты подачи Вашей заявки на грант на основе Машинного Обучения.\n\n<b><i>Зачем это нужно?</i></b>\n•Сможете оценить качество своей заявки\n•Вы сможете усовершенствовать свою заявку перед подачей',
+		f'Здравствуйте, {get_name(message.from_user.first_name)}! Я <u><b>ГрантОракул🧙‍♂️</b></u>\nЯ попробую предсказать Вам результаты подачи Вашей заявки на грант на основе моделей Машинного Обучения.\n\n<b>Для старта нажмите кнопку "<u>Начать✨</u>"</b>\n\n<b><i>Зачем это нужно?</i></b>\n•Сможете оценить качество своей заявки\n•Вы сможете усовершенствовать свою заявку перед подачей',
 		reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text='Начать✨')]],one_time_keyboard=True,resize_keyboard=True)
 	)
 
@@ -314,7 +320,10 @@ async def cmd_predict(message:types.Message,state:FSMContext) -> None:
 	if message.from_user.id not in users_dict.keys():
 		await data_register(message,0,state)
 	else:
-		await data_register(message,max(list(users_dict[message.from_user.id].keys()))+1,state)
+		if len(list(users_dict[message.from_user.id].keys())) == 0:
+			await data_register(message,0,state)
+		else:
+			await data_register(message,max(list(users_dict[message.from_user.id].keys()))+1,state)
 
 @dp.message(WaitData.waiting_inn)
 async def handler_inn(message:types.Message,state:FSMContext) -> None:
