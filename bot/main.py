@@ -305,6 +305,18 @@ async def data_register(message:types.Message,step:int,state:FSMContext):
 			 	await message.answer('<b>❌Введенная дата неправильная! ψ(._. )></b>')
 			 	await message.answer(f'👨‍💻<i>Введите дату конца реализации проекта в формате ДД.ММ.ГГГГ:</i>')
 
+@dp.message(Command('cancel'))
+async def cmd_cancel(message:types.Message,state:FSMContext) -> None:
+	await message.reply('<i>📄Без проблем, начинаем с чистого листа!</i>')
+	if message.from_user.id in users_dict.keys():
+		del users_dict[message.from_user.id]
+		
+	await state.clear()
+	await message.answer(
+		f'Здравствуйте, {get_name(message.from_user.first_name)}! Я <u><b>ГрантОракул🧙‍♂️</b></u>\nЯ попробую предсказать Вам результаты подачи Вашей заявки на грант на основе моделей Машинного Обучения.\n\n<b>Для старта нажмите кнопку "<u>Начать✨</u>"</b>\n\n<b><i>Зачем это нужно?</i></b>\n•Сможете оценить качество своей заявки\n•Вы сможете усовершенствовать свою заявку перед подачей',
+		reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text='Начать✨')]],one_time_keyboard=True,resize_keyboard=True)
+	)
+
 @dp.message(CommandStart())
 @dp.message(Command('help'))
 async def cmd_start(message:types.Message,state:FSMContext) -> None:
