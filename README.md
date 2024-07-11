@@ -60,3 +60,6 @@
   - [*Fl1nixxx*](https://github.com/Fl1nixxx)
 
   - [*Sinopt1ck*](https://github.com/Sinopt1ck)
+ 
+## Поддержать проект. 
+### https://yoomoney.ru/fundraise/13DPASMJTO0.240617
